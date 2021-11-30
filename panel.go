@@ -566,12 +566,17 @@ type Target struct {
 	CrossSeriesReducer string                    `json:"crossSeriesReducer,omitempty"`
 	PerSeriesAligner   string                    `json:"perSeriesAligner,omitempty"`
 	ValueType          string                    `json:"valueType,omitempty"`
-	GroupBy            []string                  `json:"groupBy,omitempty"`
+	GroupBy            []GroupBy                 `json:"groupBy,omitempty"`
 	Tags               []struct {
 		Key      string `json:"key,omitempty"`
 		Operator string `json:"operator,omitempty"`
 		Value    string `json:"value,omitempty"`
 	} `json:"tags,omitempty"`
+}
+
+type GroupBy struct {
+	Params []string `json:"params,omitempty"`
+	Type   string   `json:"type,omitempty"`
 }
 
 // StackdriverAlignOptions defines the list of alignment options shown in
@@ -615,8 +620,10 @@ func NewDashlist(title string) *Panel {
 			Title:    title,
 			Type:     "dashlist",
 			Renderer: &render,
-			IsNew:    true},
-		DashlistPanel: &DashlistPanel{}}
+			IsNew:    true,
+		},
+		DashlistPanel: &DashlistPanel{},
+	}
 }
 
 // NewGraph initializes panel with a graph panel.
@@ -632,13 +639,15 @@ func NewGraph(title string) *Panel {
 			Type:     "graph",
 			Renderer: &render,
 			Span:     12,
-			IsNew:    true},
+			IsNew:    true,
+		},
 		GraphPanel: &GraphPanel{
 			NullPointMode: "connected",
 			Pointradius:   5,
 			XAxis:         true,
 			YAxis:         true,
-		}}
+		},
+	}
 }
 
 // NewTable initializes panel with a table panel.
@@ -653,8 +662,10 @@ func NewTable(title string) *Panel {
 			Title:    title,
 			Type:     "table",
 			Renderer: &render,
-			IsNew:    true},
-		TablePanel: &TablePanel{}}
+			IsNew:    true,
+		},
+		TablePanel: &TablePanel{},
+	}
 }
 
 // NewText initializes panel with a text panel.
@@ -669,8 +680,10 @@ func NewText(title string) *Panel {
 			Title:    title,
 			Type:     "text",
 			Renderer: &render,
-			IsNew:    true},
-		TextPanel: &TextPanel{}}
+			IsNew:    true,
+		},
+		TextPanel: &TextPanel{},
+	}
 }
 
 // NewSinglestat initializes panel with a singlestat panel.
@@ -685,8 +698,10 @@ func NewSinglestat(title string) *Panel {
 			Title:    title,
 			Type:     "singlestat",
 			Renderer: &render,
-			IsNew:    true},
-		SinglestatPanel: &SinglestatPanel{}}
+			IsNew:    true,
+		},
+		SinglestatPanel: &SinglestatPanel{},
+	}
 }
 
 // NewStat initializes panel with a stat panel.
@@ -701,8 +716,10 @@ func NewStat(title string) *Panel {
 			Title:    title,
 			Type:     "stat",
 			Renderer: &render,
-			IsNew:    true},
-		StatPanel: &StatPanel{}}
+			IsNew:    true,
+		},
+		StatPanel: &StatPanel{},
+	}
 }
 
 // NewPluginlist initializes panel with a stat panel.
@@ -717,8 +734,10 @@ func NewPluginlist(title string) *Panel {
 			Title:    title,
 			Type:     "pluginlist",
 			Renderer: &render,
-			IsNew:    true},
-		PluginlistPanel: &PluginlistPanel{}}
+			IsNew:    true,
+		},
+		PluginlistPanel: &PluginlistPanel{},
+	}
 }
 
 func NewAlertlist(title string) *Panel {
@@ -732,8 +751,10 @@ func NewAlertlist(title string) *Panel {
 			Title:    title,
 			Type:     "alertlist",
 			Renderer: &render,
-			IsNew:    true},
-		AlertlistPanel: &AlertlistPanel{}}
+			IsNew:    true,
+		},
+		AlertlistPanel: &AlertlistPanel{},
+	}
 }
 
 func NewHeatmap(title string) *Panel {
@@ -747,8 +768,10 @@ func NewHeatmap(title string) *Panel {
 			Title:    title,
 			Type:     "heatmap",
 			Renderer: &render,
-			IsNew:    true},
-		HeatmapPanel: &HeatmapPanel{}}
+			IsNew:    true,
+		},
+		HeatmapPanel: &HeatmapPanel{},
+	}
 }
 
 // NewCustom initializes panel with a stat panel.
@@ -763,8 +786,10 @@ func NewCustom(title string) *Panel {
 			Title:    title,
 			Type:     "singlestat",
 			Renderer: &render,
-			IsNew:    true},
-		CustomPanel: &CustomPanel{}}
+			IsNew:    true,
+		},
+		CustomPanel: &CustomPanel{},
+	}
 }
 
 // ResetTargets delete all targets defined for a panel.
@@ -834,7 +859,7 @@ func (p *Panel) SetTarget(t *Target) {
 // MapDatasources on all existing targets for the panel.
 func (p *Panel) RepeatDatasourcesForEachTarget(dsNames ...string) {
 	repeatDS := func(dsNames []string, targets *[]Target) {
-		var refID = "A"
+		refID := "A"
 		originalTargets := *targets
 		cleanedTargets := make([]Target, 0, len(originalTargets)*len(dsNames))
 		*targets = cleanedTargets
@@ -982,7 +1007,7 @@ func (p *Panel) UnmarshalJSON(b []byte) (err error) {
 				p.RowPanel = &rowpanel
 			}
 		default:
-			var custom = make(CustomPanel)
+			custom := make(CustomPanel)
 			p.OfType = CustomType
 			if err = json.Unmarshal(b, &custom); err == nil {
 				p.CustomPanel = &custom
@@ -995,73 +1020,73 @@ func (p *Panel) UnmarshalJSON(b []byte) (err error) {
 func (p *Panel) MarshalJSON() ([]byte, error) {
 	switch p.OfType {
 	case GraphType:
-		var outGraph = struct {
+		outGraph := struct {
 			CommonPanel
 			GraphPanel
 		}{p.CommonPanel, *p.GraphPanel}
 		return json.Marshal(outGraph)
 	case TableType:
-		var outTable = struct {
+		outTable := struct {
 			CommonPanel
 			TablePanel
 		}{p.CommonPanel, *p.TablePanel}
 		return json.Marshal(outTable)
 	case TextType:
-		var outText = struct {
+		outText := struct {
 			CommonPanel
 			TextPanel
 		}{p.CommonPanel, *p.TextPanel}
 		return json.Marshal(outText)
 	case SinglestatType:
-		var outSinglestat = struct {
+		outSinglestat := struct {
 			CommonPanel
 			SinglestatPanel
 		}{p.CommonPanel, *p.SinglestatPanel}
 		return json.Marshal(outSinglestat)
 	case StatType:
-		var outSinglestat = struct {
+		outSinglestat := struct {
 			CommonPanel
 			StatPanel
 		}{p.CommonPanel, *p.StatPanel}
 		return json.Marshal(outSinglestat)
 	case DashlistType:
-		var outDashlist = struct {
+		outDashlist := struct {
 			CommonPanel
 			DashlistPanel
 		}{p.CommonPanel, *p.DashlistPanel}
 		return json.Marshal(outDashlist)
 	case BarGaugeType:
-		var outBarGauge = struct {
+		outBarGauge := struct {
 			CommonPanel
 			BarGaugePanel
 		}{p.CommonPanel, *p.BarGaugePanel}
 		return json.Marshal(outBarGauge)
 	case PluginlistType:
-		var outPluginlist = struct {
+		outPluginlist := struct {
 			CommonPanel
 			PluginlistPanel
 		}{p.CommonPanel, *p.PluginlistPanel}
 		return json.Marshal(outPluginlist)
 	case AlertlistType:
-		var outAlertlist = struct {
+		outAlertlist := struct {
 			CommonPanel
 			AlertlistPanel
 		}{p.CommonPanel, *p.AlertlistPanel}
 		return json.Marshal(outAlertlist)
 	case RowType:
-		var outRow = struct {
+		outRow := struct {
 			CommonPanel
 			RowPanel
 		}{p.CommonPanel, *p.RowPanel}
 		return json.Marshal(outRow)
 	case HeatmapType:
-		var outHeatmap = struct {
+		outHeatmap := struct {
 			CommonPanel
 			HeatmapPanel
 		}{p.CommonPanel, *p.HeatmapPanel}
 		return json.Marshal(outHeatmap)
 	case CustomType:
-		var outCustom = customPanelOutput{
+		outCustom := customPanelOutput{
 			p.CommonPanel,
 			*p.CustomPanel,
 		}
