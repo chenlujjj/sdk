@@ -526,10 +526,10 @@ type Target struct {
 		Field string `json:"field"`
 		Type  string `json:"type"`
 	} `json:"metrics,omitempty"`
-	Query      string `json:"query,omitempty"`
-	Alias      string `json:"alias,omitempty"`
-	RawQuery   string `json:"rawQuery,omitempty"`
-	TimeField  string `json:"timeField,omitempty"`
+	Query      string      `json:"query,omitempty"`
+	Alias      string      `json:"alias,omitempty"`
+	RawQuery   interface{} `json:"rawQuery,omitempty"`
+	TimeField  string      `json:"timeField,omitempty"`
 	BucketAggs []struct {
 		ID       string `json:"id"`
 		Field    string `json:"field"`
