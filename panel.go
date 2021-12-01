@@ -502,10 +502,7 @@ type Target struct {
 		Params   []string `json:"params,omitempty"`
 		Datatype string   `json:"datatype,omitempty"`
 	} `json:"where,omitempty"`
-	Group []struct {
-		Type   string   `json:"type,omitempty"`
-		Params []string `json:"params,omitempty"`
-	} `json:"group,omitempty"`
+	Group interface{} `json:"group,omitempty"`
 
 	// For Prometheus
 	Expr           string `json:"expr,omitempty"`
@@ -561,7 +558,7 @@ type Target struct {
 	AliasBy            string                    `json:"aliasBy,omitempty"`
 	MetricType         string                    `json:"metricType,omitempty"`
 	MetricKind         string                    `json:"metricKind,omitempty"`
-	Filters            []string                  `json:"filters,omitempty"`
+	Filters            []interface{}                  `json:"filters,omitempty"`
 	AlignmentPeriod    string                    `json:"alignmentPeriod,omitempty"`
 	CrossSeriesReducer string                    `json:"crossSeriesReducer,omitempty"`
 	PerSeriesAligner   string                    `json:"perSeriesAligner,omitempty"`
