@@ -493,7 +493,7 @@ type Target struct {
 	MetricColumn string `json:"metricColumn,omitempty"`
 	RawSql       string `json:"rawSql,omitempty"`
 	Select       [][]struct {
-		Params []string `json:"params,omitempty"`
+		Params []interface{} `json:"params,omitempty"`
 		Type   string   `json:"type,omitempty"`
 	} `json:"select,omitempty"`
 	Where []struct {
