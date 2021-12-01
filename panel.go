@@ -528,7 +528,7 @@ type Target struct {
 	} `json:"metrics,omitempty"`
 	Query      string `json:"query,omitempty"`
 	Alias      string `json:"alias,omitempty"`
-	RawQuery   bool   `json:"rawQuery,omitempty"`
+	RawQuery   string `json:"rawQuery,omitempty"`
 	TimeField  string `json:"timeField,omitempty"`
 	BucketAggs []struct {
 		ID       string `json:"id"`
