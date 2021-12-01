@@ -238,7 +238,7 @@ type (
 		} `json:"options"`
 	}
 	SinglestatPanel struct {
-		Colors          []string    `json:"colors"`
+		Colors          interface{} `json:"colors"`
 		ColorValue      bool        `json:"colorValue"`
 		ColorBackground bool        `json:"colorBackground"`
 		Decimals        int         `json:"decimals"`
@@ -261,7 +261,7 @@ type (
 		ValueName       string      `json:"valueName"`
 	}
 	StatPanel struct {
-		Colors          []string    `json:"colors"`
+		Colors          interface{} `json:"colors"`
 		ColorValue      bool        `json:"colorValue"`
 		ColorBackground bool        `json:"colorBackground"`
 		Decimals        int         `json:"decimals"`
@@ -439,21 +439,21 @@ type (
 		Value    string `json:"value"`
 	}
 	ColumnStyle struct {
-		Alias           *string    `json:"alias"`
-		DateFormat      *string    `json:"dateFormat,omitempty"`
-		Pattern         string     `json:"pattern"`
-		Type            string     `json:"type"`
-		ColorMode       *string    `json:"colorMode,omitempty"`
-		Colors          *[]string  `json:"colors,omitempty"`
-		Decimals        *int       `json:"decimals,omitempty"`
-		Thresholds      *[]string  `json:"thresholds,omitempty"`
-		Unit            *string    `json:"unit,omitempty"`
-		MappingType     int        `json:"mappingType,omitempty"`
-		ValueMaps       []ValueMap `json:"valueMaps,omitempty"`
-		Link            bool       `json:"link,omitempty"`
-		LinkTooltip     *string    `json:"linkTooltip,omitempty"`
-		LinkUrl         *string    `json:"linkUrl,omitempty"`
-		LinkTargetBlank bool       `json:"linkTargetBlank,omitempty"`
+		Alias           *string      `json:"alias"`
+		DateFormat      *string      `json:"dateFormat,omitempty"`
+		Pattern         string       `json:"pattern"`
+		Type            string       `json:"type"`
+		ColorMode       *string      `json:"colorMode,omitempty"`
+		Colors          *interface{} `json:"colors,omitempty"`
+		Decimals        *int         `json:"decimals,omitempty"`
+		Thresholds      *[]string    `json:"thresholds,omitempty"`
+		Unit            *string      `json:"unit,omitempty"`
+		MappingType     int          `json:"mappingType,omitempty"`
+		ValueMaps       []ValueMap   `json:"valueMaps,omitempty"`
+		Link            bool         `json:"link,omitempty"`
+		LinkTooltip     *string      `json:"linkTooltip,omitempty"`
+		LinkUrl         *string      `json:"linkUrl,omitempty"`
+		LinkTargetBlank bool         `json:"linkTargetBlank,omitempty"`
 	}
 )
 
@@ -494,7 +494,7 @@ type Target struct {
 	RawSql       string `json:"rawSql,omitempty"`
 	Select       [][]struct {
 		Params []interface{} `json:"params,omitempty"`
-		Type   string   `json:"type,omitempty"`
+		Type   string        `json:"type,omitempty"`
 	} `json:"select,omitempty"`
 	Where []struct {
 		Type     string   `json:"type,omitempty"`
@@ -558,7 +558,7 @@ type Target struct {
 	AliasBy            string                    `json:"aliasBy,omitempty"`
 	MetricType         string                    `json:"metricType,omitempty"`
 	MetricKind         string                    `json:"metricKind,omitempty"`
-	Filters            []interface{}                  `json:"filters,omitempty"`
+	Filters            []interface{}             `json:"filters,omitempty"`
 	AlignmentPeriod    string                    `json:"alignmentPeriod,omitempty"`
 	CrossSeriesReducer string                    `json:"crossSeriesReducer,omitempty"`
 	PerSeriesAligner   string                    `json:"perSeriesAligner,omitempty"`
